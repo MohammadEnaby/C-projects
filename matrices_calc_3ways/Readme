@@ -1,0 +1,162 @@
+Matrices calculator
+
+authored by mohammad enaby
+
+
+Description:
+  This project contains four programs (two of them work together), so this file will be 3 sections for these programs.
+  All the sections are calculators but in a defferent ways.
+
+Key features:
+   - the project manages the operations on square matrices, so it will not work for defferent dimentions.
+   - the project do the operations on matrices with the same type.
+----------------------------------------------------------------------------------------------------------------------
+Sction 1- Ex3q1.c
+
+Description: this program is a calculator for two matrices or less (integer, double or complex), it can calculate the operations addition, multiply, subtract, transpose, and another 3 logical operation just for binary matrices (and, or, not). 
+
+Functions:
+
+for each type (int double and complex) I have created the same methods:
+    fill_matrix_<type>: this function fills matrix with the input from the user.
+    add_sub_mul_<type>: this function manages the opearations addtition, multiply and subtract on two matrices.
+    TRANSPOSE_matrix_<type>: this function manages the transpose opertion.
+    print_matrix_<type>: this funciton print matrix with the same format as the input.
+another methos:
+    is_Binary: checks if the matrix is binary.
+    NOT_matrix: this function manage NOT opertaion for binary matrix.
+    manage_AND_OR_matrix: this function manage and, or operations on a binary matrices.
+main function: takes the input from the use, checks the operation, calculate the opertaion and print the results.
+
+Program Files:
+Ex3q1.c: Contains the source code for the calculator.
+run_me_1.sh: A script to compile Ex3q1.c and run it.
+
+How to Compile:
+To compile and run the program, execute the following commands in the terminal:
+chmod +x run_me_1.sh
+./run_me_1.sh
+
+Input:
+ - matrix format: (dimension,dimension:1,2,3,...), for example: (2,2: 1,2,3,4) is the matrix 1   2
+                                                                                             3   4
+
+ - if the operation is not, transpose ,the user should write one matrix and the operation (NOT, TRANSPOSE).
+ - else, the user should write two matrices and the operation (AND, OR, MUL, ADD, SUB).
+ - the input should be with a correct format, else the program will not work.
+ - if the matrix is complex, the user should write the 'i' in every case, also if the imagine number of it is 1 or zero 
+   he should write it like this '1i' or '0i'.
+
+Output:
+this program will print the result of the operations if the input is correct.
+----------------------------------------------------------------------------------------------------------------------
+Sction 2- Ex3q2a.c/Ex3q2b.c
+
+Description: 
+this part contains two program, the first one is the writer which write the data from the user to a shared memory in some format, so after this the second program (reader) start working, it scans the shared memory, takes the date and calculate it. these two programs are working together in a loop, the first takes the input and the second prints the results, until the writing END to the writer, so two programs will exit.
+
+these two programs are not working at the same time, each of them wait the second to end, which mean, when the writer ended writing to the shared memory , the reader will start calculating and the writer will wait until the reader exit and clean the shared memory. for this I have used mutex and semaphore to prevent from race condition.
+
+writer program Ex3q2a:
+  Functions:
+  create_shared_memory, attach_shared_memory: these functions are managing initializating the shared memory. 
+  main function: takes the input from the use, write it to the shared memory and send signal to the reader program     to start.
+
+reader program Ex3q2a:
+  Functions:
+  create_shared_memory, attach_shared_memory: these functions are managing initializating the shared memory.
+  
+  for each type (int double and complex) I have created the same methods:
+      fill_matrix_<type>: this function fills matrix with the input from the user.
+      add_sub_mul_<type>: this function manages the opearations addtition, multiply and subtract on two matrices.
+      TRANSPOSE_matrix_<type>: this function manages the transpose opertion.
+      print_matrix_<type>: this funciton print matrix with the same format as the input.
+
+  another methos:
+      is_Binary: checks if the matrix is binary.
+      NOT_matrix: this function manage NOT opertaion for binary matrix.
+      manage_AND_OR_matrix: this function manage and, or operations on a binary matrices.
+  main function: takes the input from the use, checks the operation, calculate the opertaion, prints the results and clean the shared memory to write to it again and again.
+
+Program Files:
+Ex3q2a.c: Contains the source code for writing to the shared memory.
+run_me_2a.sh: A script to compile Ex3q2a.c and run it.
+Ex3q2b.c: Contains the source code for reading from the shared memory and calculating the data.
+run_me_2b.sh: A script to compile Ex3q2b.c and run it.
+
+How to Compile:
+To compile and run these programs,open two terminal windows, execute the following commands in the first terminal:
+chmod +x run_me_2a.sh
+./run_me_2a.sh
+execute the following commands in the second terminal:
+chmod +x run_me_2b.sh
+./run_me_2b.sh
+and start writiing data for the first one.
+
+Input:
+ - write the inout to the first terminal window.
+ - matrix format: (dimension,dimension:1,2,3,...), for example: (2,2: 1,2,3,4) is the matrix 1   2
+                                                                                             3   4
+
+ - if the operation is not, transpose ,the user should write one matrix and the operation (NOT, TRANSPOSE).
+ - else, the user should write two matrices and the operation (AND, OR, MUL, ADD, SUB).
+ - the input should be with a correct format, else the program will not work.
+ - if the matrix is complex, the user should write the 'i' in every case, also if the imagine number of it is 1 or zero 
+   he should write it like this '1i' or '0i'.
+
+Output:
+ - the output will appear in the second terminal window.
+ - this program will print the result of the operations if the input is correct.
+----------------------------------------------------------------------------------------------------------------------
+Sction 3- Ex3q3a.c
+
+Description: this program is a calculator for multiple matrices, the number of matrices is even, I have initialized threads to handle this, each thread calculate the opertion for each pair, and final the main thread do the operation for all these results.
+special conditon: if the number of the matrices is power of 2, when these threads return results I initilaized threads to handle the results in recursion, until arriving to one result matrix.
+In this section, the allowed operatoins are (AND, OR, ADD and MUL).
+Functions:
+for each type (int double and complex) I have created the same methods:
+    fill_matrix_<type>: this function fills matrix with the input from the user.
+    add_sub_mul_<type>: this function manages the opearations addtition, multiply and subtract on two matrices.
+    print_matrix_<type>: this funciton print matrix with the same format as the input.
+    thread_function_<type>: this function takes pair matrices and operation as input, create thread to calculate it.
+    add_mul_all_matrices_<type>: this function takes matrices as input and calculate an operation on all of them.
+    recursive_for_power_of_2_matrices_<type>: this function handles the situation of number of matrices, it initializes threads and give the results to the next threads in the next iteration in recursion.
+another methos:
+    is_Binary: checks if the matrix is binary.
+    NOT_matrix: this function manage NOT opertaion for binary matrix.
+    manage_AND_OR_matrix: this function manage and, or operations on a binary matrices.
+    and_or_all_matrices: this function takes binary matrices, and calculate an operation (AND, OR) on all of them.
+main function: takes the input from the use, checks the number of the matrices, if it is power of 2, calculate it and print the result with the recursion, else, it calculates as original and print the results.
+
+Program Files:
+Ex3q3a.c: Contains the source code for the calculator.
+run_me_3.sh: A script to compile Ex3q3a.c and run it.
+
+How to Compile:
+To compile and run the program, execute the following commands in the terminal:
+chmod +x run_me_3.sh
+./run_me_.sh
+
+Input:
+ - matrix format: (dimension,dimension:1,2,3,...), for example: (2,2: 1,2,3,4) is the matrix 1   2
+                                                                                             3   4
+
+ - if the operation is not, transpose ,the user should write one matrix and the operation (NOT, TRANSPOSE).
+ - else, the user should write two matrices and the operation (AND, OR, MUL, ADD, SUB).
+ - the input should be with a correct format, else the program will not work.
+ - if the matrix is complex, the user should write the 'i' in every case, also if the imagine number of it is 1 or zero 
+   he should write it like this '1i' or '0i'.
+
+Output:
+this program will print the result of the operations if the input is correct.
+
+
+
+
+
+
+
+
+
+
+h

@@ -1,0 +1,68 @@
+
+authored by: mohammad enaby
+Virtual Memory Simulation Project
+
+Overview
+This project is a simulation of a virtual memory system in C. It involves the implementation of a page table, memory management, and swapping mechanisms to handle memory accesses for a hypothetical program. The main functionality includes loading and storing data to and from virtual memory, handling page faults, and managing a swap file.
+
+Files
+main.c: Contains the implementation of the virtual memory simulation including initialization, memory operations (load/store), and printing functions.
+exec_file: The executable file that contains the program's instructions.
+swap_file: A swap file used for simulating swapping of memory pages.
+Constants
+PAGE_SIZE: Size of a single memory page (8 bytes).
+NUM_OF_PAGES: Number of pages in the virtual memory (25 pages).
+MEMORY_SIZE: Size of the main memory (40 bytes).
+SWAP_SIZE: Size of the swap space (200 bytes).
+Data Structures
+page_descriptor
+A struct that represents the details of a single page in the page table.
+
+V: Valid bit indicating if the page is in memory.
+D: Dirty bit indicating if the page has been modified.
+P: Permission bit indicating if the page is read-only.
+frame_swap: Frame number in memory or swap space if the page is mapped.
+sim_database
+A struct that holds the entire simulation state.
+
+page_table: Array of page_descriptor structs representing the page table.
+swapfile_fd: File descriptor for the swap file.
+program_fd: File descriptor for the executable file.
+main_memory: Array representing the main memory.
+text_size: Size of the text segment.
+data_size: Size of the data segment.
+bss_heap_stack_size: Size of the BSS, heap, and stack segments combined.
+Functions
+sim_database* init_system(char exe_file_name[], char swap_file_name[], int text_size, int data_size, int bss_heap_stack_size)
+Initializes the virtual memory simulation.
+
+Opens the executable and swap files.
+Initializes the page table and main memory.
+int search_old_position(sim_database* mem_sim)
+Searches for the old position in memory to replace.
+
+void clean_old_position(sim_database* mem_sim)
+Cleans up the old frame in memory and updates the swap file if necessary.
+
+char load(sim_database* mem_sim, int address)
+Loads a byte from the specified address in virtual memory.
+
+void store(sim_database* mem_sim, int address, char value)
+Stores a byte to the specified address in virtual memory.
+
+void print_swap(sim_database* mem_sim)
+Prints the contents of the swap file.
+
+void print_page_table(sim_database* mem_sim)
+Prints the current state of the page table.
+
+void print_memory(sim_database* mem_sim)
+Prints the contents of the main memory.
+
+void clear_system(sim_database* mem_sim)
+Cleans up and frees the resources used by the simulation.
+
+how to compile: 
+run in the terminal window this: 
+chmod +x Run_me.sh
+./Run_me.sh

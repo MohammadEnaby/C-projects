@@ -1,0 +1,69 @@
+Interactive Shell Simulator
+Authored by Mohammad Enaby
+
+
+Description:
+The interactive shell simulator is a C-based implementation designed to mimic the behavior of a Linux shell. This shell presents a prompt to the user, reads commands, and executes them using the underlying Linux operating system.
+
+
+Prompt Details:
+  The prompt displays:
+
+    1. The number of successful commands (cmd).
+    2. The number of active alias commands (alias).
+    3. The number of lines executed from a script file (script lines).
+  Users can execute script files within the shell using the command: source <file_name>.
+
+Key Features:
+  Interactive Command Execution: Users can enter commands interactively, which the shell will then execute.
+  Alias Management: Users can define aliases for commands and remove them as needed.
+  Background Execution: Users can execute commands in the background using the '&' symbol.
+  Job Management: Users can view currently running background jobs.
+  AND/OR Command Execution: Supports executing commands based on the success or failure of previous commands using '&&' and '||'.
+  Error Redirection: Redirects error messages to a file using '2>'.
+  Script Execution: Users can execute a series of commands from a script file.
+
+Functions:
+
+  main: Initializes the shell, displays the prompt, and enters an infinite loop to read and execute user commands.
+  updatePrompt: Updates the prompt variables to reflect the current state of the shell (number of commands, aliases, and script lines).
+  splitSentenceIntoWords: Parses user input into separate arguments for processing.
+  addAlias: Adds a new alias to the list of aliases. Each alias maps a new command to an existing command.
+  removeAlias: Removes an existing alias from the list of aliases.
+  readScript: Reads a script file and executes its commands, updating the prompt accordingly.
+  printAliases: When the user enters the command alias without any additional arguments, this function prints all the currently defined aliases.
+  Supporting Functions
+  freeArguments: Frees the memory allocated for command arguments.
+  freeAliases: Frees the memory allocated for the aliases.
+  exec_in_background: Executes a command in the background and adds it to the list of jobs.
+  freeJobs: Frees the memory allocated for the jobs.
+  exec_in_background: Executes a command in the background and adds it to the list of jobs.
+  check_if_end: Checks if any background jobs have completed and removes them from the job list.
+  delete_process: Deletes a completed background job from the job list.
+  print_all_jobs: Prints all currently running background jobs.
+  freeJobs: Frees the memory allocated for the job list.
+  execute_command: Executes a command in the foreground and waits for it to complete.
+  Count_AND_OR: Counts the number of && and || operators in the command input.
+  separate_input_AND_OR: Separates the input command string into individual commands based on && and ||.
+  manage_AND_OR: Manages the execution of commands based on && and || operators.
+  ERR_to_file: Redirects error messages of a command to a specified file.
+  ERR_and_or_to_file: Redirects error messages of commands with && and || to a specified file.
+
+
+Program Files:
+  ex2.c:
+
+Contains the source code for the shell.
+  run_me.sh:
+
+A script to compile ex1.c and perform error and memory leak checks.
+How to Compile:
+  To compile and run the program, execute the following commands in the terminal:
+نسخ الكود
+chmod +x run_me.sh
+./run_me.sh
+Input:
+The shell accepts typical Linux commands such as echo, sleep, man, ps, ls, cat, uname, pwd, etc.
+
+Output:
+The shell outputs the results of the executed commands. It also provides a detailed report on the program's operations, including any errors or memory leaks detected during execution.
