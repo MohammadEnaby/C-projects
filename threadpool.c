@@ -6,7 +6,6 @@ void enqueue(work_t** qhead, work_t** qtail, int* qsize, int (*routine)(void*), 
     // Create a new work item
     work_t* new_work = (work_t*)malloc(sizeof(work_t));
     if (new_work == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
     new_work->routine = routine;
@@ -128,10 +127,9 @@ void* do_work(void* p) {
             pthread_exit(NULL);
         }
 
-        while (tp->qsize == 0 && !tp->shutdown) {
+        if (tp->qsize == 0) {
             pthread_cond_wait(&tp->q_not_empty, &tp->qlock);
         }
-
         if (tp->shutdown) {
             pthread_mutex_unlock(&tp->qlock);
             pthread_exit(NULL);
@@ -143,14 +141,13 @@ void* do_work(void* p) {
             pthread_cond_signal(&tp->q_not_full);
         }
 
-        if(tp->qsize == 0) {
+        if(tp->qsize == 0 && tp->dont_accept) {
             pthread_cond_signal(&tp->q_empty);
         }
 
         pthread_mutex_unlock(&tp->qlock);
 
         if (work != NULL) {
-            // Debugging: Show the thread working on the job
             work->routine(work->arg);
             free(work);
         }
